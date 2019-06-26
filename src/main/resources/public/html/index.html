@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+
+    <!-- fix adding to DB -->
+
+    <!--<script type="text/javascript" src="C:\Users\Jackson\Desktop\sweater-JPA_Postgres\src\main\resources\public\html\js\main.js"></script>-->
+
+</head>
+<body ng-app="myApp" ng-controller="myCtrl">
+
+
+<script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"> </script>
+
+
+<h3>
+    CRUD: Spring Boot + Rest + AngularJS
+</h3>
+
+
+<form ng-submit="submitEmployee()">
+    <table border="0">
+        <tr>
+            <td>Emp Id</td>
+            <td>{{employeeForm.empId}}</td>
+        </tr>
+        <tr>
+            <td>Emp No</td>
+            <td><input type="text" ng-model="employeeForm.empNo" /></td>
+        </tr>
+        <tr>
+            <td>Emp Name</td>
+            <td><input type="text" ng-model="employeeForm.empName"  /></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="Submit" class="blue-button" />
+            </td>
+        </tr>
+    </table>
+</form>
+<br/>
+<a class="create-button" ng-click="createEmployee()">Create Employee</a>
+<table border="1">
+    <tr>
+        <th>Emp Id</th>
+        <th>Emp No</th>
+        <th>Emp Name</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    <!-- $scope.employees -->
+    <tr ng-repeat="employee in employees">
+        <td> {{ employee.empId }}</td>
+        <td> {{ employee.empNo }}</td>
+        <td >{{ employee.empName }}</td>
+        <td>
+            <a ng-click="editEmployee(employee)" class="edit-button">Edit</a>
+        </td>
+        <td>
+            <a ng-click="deleteEmployee(employee)" class="delete-button">Delete</a>
+        </td>
+    </tr>
+</table>
+
+
+<a th:href="@{test}">lolol</a>
+
+<a th:href="@{cshtest}">Sharp</a>
+<a th:href="@{javatest}">java</a>
+<a th:href="@{cpptest}">c++</a>
+
+
+<a href="test.html">
+
+<script>
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', function($scope, $http) {
+
+        $scope.employees = [];
+
+        /* $scope.employeeForm = {
+             empId: 1,
+             empNo: "lolo",
+             empName: "keko"
+         };*/
+
+        // Now load the data from server
+        _refreshEmployeeData();
+
+        // HTTP POST/PUT methods for add/edit employee
+        // Call: http://localhost:8080/employee
+        $scope.submitEmployee = function () {
+
+            var method = "";
+            var url = "";
+
+            if ($scope.employeeForm.empId == 1) {
+                method = "POST";
+                url = '/employee';
+                $scope.employeeForm.empId+4;
+            } else {
+                method = "PUT";
+                url = '/employee';
+            }
+
+            $http({
+                method: method,
+                url: url,
+                data: angular.toJson($scope.employeeForm),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(_success, _error);
+        };
+
+        $scope.createEmployee = function () {
+            _clearFormData();
+        }
+
+        // HTTP DELETE- delete employee by Id
+        // Call: http://localhost:8080/employee/{empId}
+        $scope.deleteEmployee = function (employee) {
+            $http({
+                method: 'DELETE',
+                url: '/employee/' + employee.empId
+            }).then(_success, _error);
+        };
+
+        // In case of edit
+        $scope.editEmployee = function (employee) {
+            $scope.employeeForm.empId = employee.empId;
+            $scope.employeeForm.empNo = employee.empNo;
+            $scope.employeeForm.empName = employee.empName;
+        };
+
+        // Private Method
+        // HTTP GET- get all employees collection
+        // Call: http://localhost:8080/employees
+        function _refreshEmployeeData() {
+            $http({
+                method: 'GET',
+                url: '/employees'
+            }).then(
+                function (res) { // success
+                    $scope.employees = res.data;
+                },
+                function (res) { // error
+                    console.log("Error: " + res.status + " : " + res.data);
+                }
+            );
+        }
+
+        function _success(res) {
+            _refreshEmployeeData();
+            _clearFormData();
+        }
+
+        function _error(res) {
+            var data = res.data;
+            var status = res.status;
+            var header = res.header;
+            var config = res.config;
+            alert("Error: " + status + ":" + data);
+        }
+
+        // Clear the form
+        function _clearFormData() {
+            $scope.employeeForm.empId = $scope.employeeForm.empId.length-1;
+            $scope.employeeForm.empNo = "lol";
+            $scope.employeeForm.empName = "kek";
+        }
+    });
+
+</script>
+
+</body>
+</html>

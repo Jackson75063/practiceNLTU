@@ -3,18 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+
 </head>
 <body ng-app="myApp1" ng-controller="myCtrl1">
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-<h1>{{4+4}}</h1>
-<div style="text-align: left; padding: 100px;  background-color: #b3d7ff; width: 600px; " >
+
+<div  class="container" style="text-align: left; padding: 100px;  background-color: #b3d7ff; width: 600px; " >
+
+    <nav class="navbar navbar-expand-lg fixed-top ">
+        <a class="navbar-brand" href="#">Магазин Винагород</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse " id="navbarSupportedContent">     <ul class="navbar-nav mr-4">
+            <li class="nav-item">
+                <a class="nav-link" data-value="about" href="#">Тести</a>        </li>
+            <li class="nav-item">
+                <a class="nav-link " data-value="portfolio"href="#">Магазин</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " data-value="blog" href="#">Про нас</a>         </li>
+
+
+        </ul>
+        </div></nav>
+
     <form style="align-content:center; align-items: center;  ">
 
 
+            <h4>Введіть ваше ім'я</h4>
+        <input type="text" placeholder="Ім'я" ng-model="employeeForm.name" >
 
-        {{ employeeForm.Name }}
-        {{ employeeForm.Id }}
+
         <p> <b>В якому файлі зберігаються файли на мові c++? </b> <br>
             <label>
                 <input type="radio" name="myname" value="0">
@@ -147,16 +171,11 @@
         <br>
 
 
-        оголошення  зміної типу int <br>
 
-        опис класу з назвою Клас1 <br>
-
-        Успадкування типів <br>
-
-        Кількість балів: <input type="text" name="result" ng-model="employeeForm.Points">
+        Кількість балів: <input type="text" name="result" ng-model="employeeForm.points">
 
         <p>
-            <input type="button" id="calc" ng-click="sendData()" value="Відправити на перевірку">
+            <input type="button" onclick="calculate()" id="calc" ng-click="sendData()" value="Відправити на перевірку">
             <input type="reset" value="Обнулити">
         </p>
 
@@ -166,15 +185,47 @@
 </div>
 <script>
 
+    function calculate() {
+
+        var myform = this.form;
+
+        var res = myform.myname.value  +myform.street.value;
+
+        console.log(res);
+        myform.result.value =  +myform.myname.value
+            +  +myform.myname1.value
+            +  +myform.myname2.value
+            +  +myform.myname3.value
+            +  +myform.myname4.value
+            +  +myform.street.value;
+
+        alert(myform.result.value);
+        cosnole.log(myform.result.value);
+    }
+
+    calc.onclick = function(){
+        var myform = this.form;
+
+        var res = myform.myname.value  +myform.street.value;
+
+        console.log(res);
+        myform.result.value =  +myform.myname.value
+            +  +myform.myname1.value
+            +  +myform.myname2.value
+            +  +myform.myname3.value
+            +  +myform.myname4.value
+            +  +myform.street.value;
+    }
+
     var app1 = angular.module('myApp1', []);
     app1.controller('myCtrl1', function($scope, $http) {
 
         $scope.users = [];
 
         $scope.employeeForm = {
-            id: 1,
-            points: 1001,
-            name:  "lolik"
+            id: null,
+            points: 0 ,
+            name:  ""
         };
 
             /*{
@@ -212,24 +263,31 @@
             }).then();
         };
 
+        $scope.websites = [];
+
+        $http.get('http://localhost:8080//products').then(function (response) {
+            $scope.websites=response.data;
+        })
 
     });
 
 
-    calc.onclick = function(){
-        var myform = this.form;
 
-        var res = myform.myname.value  +myform.street.value;
-
-        console.log(res);
-        myform.result.value =  +myform.myname.value
-            +  +myform.myname1.value
-            +  +myform.myname2.value
-            +  +myform.myname3.value
-            +  +myform.myname4.value
-            +  +myform.street.value;
-    }
 
 </script>
+
+
+
+<style>
+
+    .navbar{ background:#F97300;}
+    .nav-link , .navbar-brand{ color: #f4f4f4; cursor: pointer;}
+    .nav-link{ margin-right: 1em !important;}
+    .nav-link:hover{ background: #f4f4f4; color: #f97300; }
+    .navbar-collapse{ justify-content: flex-end;}
+    .navbar-toggler{  background:#fff !important;}
+
+</style>
+
 </body>
 </html>

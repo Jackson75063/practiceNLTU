@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Магазин призів</title>
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+<div ng-app="myApp1" ng-controller = "myCtrl1" >
+
+    <div class="container" >
+
+        <nav style="align-content: center; align-items: center;  " class="navbar  navbar-expand-lg fixed-top ">
+            <a class="navbar-brand" th:href="@{test}">Магазин Винагород</a>
+            <button style="color: #00bcd4" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse " id="navbarSupportedContent">     <ul class="navbar-nav mr-4">
+                <li class="nav-item">
+                    <a class="nav-link" data-value="about" th:href="@{cpptest}">Тести</a>        </li>
+
+                <li class="nav-item">
+                    <a class="nav-link " data-value="blog" th:href="@{MyTestFile}">Магазин</a>         </li>
+                <li class="nav-item">
+                    <a class="nav-link " data-value="contact" th:href="@{test}">Про нас</a>       </li>
+            </ul>
+            </div></nav>
+
+
+
+        <div style="padding: 100px;" class="row">
+            <div class="col-2"></div>
+            <div class="col-10" >
+
+                <h3 style="float: left";> Ласкаво просимо {{lastUser[0].name}}</h3>
+                <h3 style="float: right;">У вас {{lastUser[0].points}} балів </h3>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Зображення</th>
+                        <th>Назва товару</th>
+                        <th>Опис</th>
+                        <th>Ціна</th>
+                        <th> Дії</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat = "items in websites ">
+                        <td><img style="width: 100px; height: 100px; tab-interval: 5px"   ng-src="{{items.img}} "></td>
+                        <td>{{items.name}}</td>
+                        <td>{{items.description}}</td>
+                        <td>{{items.price}}</td>
+                        <td><a href="google.com"> Купити </a> </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript" >
+
+    var app1 = angular.module('myApp1', []);
+    app1.controller('myCtrl1', function($scope, $http) {
+
+        $scope.users = [];
+
+        $scope.employeeForm = {
+            id: null,
+            points: 100 ,
+            name: "Гість"
+        };
+
+        /*{
+        empId: 1,
+        empName: "keko",
+        empPoint: 67
+    };*/
+
+        $scope.sendData = function () {
+
+            var method = "";
+            var url = "";
+
+//            if ($scope.employeeForm.empId == 1) {
+            method = "POST";
+            url = '/user';
+            $scope.employeeForm.Id;
+            console.log("POST");
+            console.log($scope.employeeForm.Id);
+            console.log($scope.employeeForm);
+
+//            } else {
+//                method = "PUT";
+//                url = '/user';
+//            }
+
+            $http({
+                method: method,
+                url: url,
+                data: angular.toJson($scope.employeeForm),
+//
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then();
+        };
+
+        $scope.websites = [];
+
+        $http.get('http://localhost:8080/products').then(function (response) {
+            $scope.websites=response.data;
+        })
+
+        $scope.lastUser = [];
+
+        $http.get('http://localhost:8080/lastUser').then(function (response) {
+            $scope.lastUser=response.data;
+        })
+
+
+    });
+
+    /*var app = angular.module("MyApp",[]);
+    app.controller("MyController", function ($scope, $http) {
+
+        $scope.websites = [];
+
+        $http.get('http://localhost:8080//products').then(function (response) {
+            $scope.websites=response.data;
+        })
+    });
+*/
+
+</script>
+
+
+<style>
+
+    .navbar{ background:#F97300;}
+    .nav-link , .navbar-brand{ color: #f4f4f4; cursor: pointer;}
+    .nav-link{ margin-right: 1em !important;}
+    .nav-link:hover{ background: #f4f4f4; color: #f97300; }
+    .navbar-collapse{ justify-content: flex-end;}
+    .navbar-toggler{  background:#fff !important;}
+
+</style>
+
+</body>
+</html>

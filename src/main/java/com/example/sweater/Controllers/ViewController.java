@@ -17,11 +17,18 @@ public class ViewController {
 //        return "index";
 //    }
 
-    @GetMapping("/")
+  /*  @GetMapping("/")
     public String onLOad(){
 
         kek();
         return "index";
+    }*/
+
+
+    @GetMapping("/prod")
+    public String product(){
+
+        return "MyTestFile";
     }
 
     @GetMapping("/test")
@@ -29,6 +36,20 @@ public class ViewController {
 
         kek();
         return  "test";
+    }
+
+    @GetMapping("/login")
+    public String onTest1(){
+
+        kek();
+        return  "login";
+    }
+
+    @GetMapping("/hello")
+    public String onTest2(){
+
+        kek();
+        return  "hello";
     }
 
     @GetMapping("/javatest")

@@ -24,6 +24,8 @@ public class HtmlViewResolver {
         templateResolver.setTemplateMode(TemplateMode.HTML);
         templateResolver.setCharacterEncoding("UTF-8");
 
+        System.out.println("view resolver called");
+
         return templateResolver;
     }
 

@@ -12,25 +12,29 @@ import java.util.List;
 @RestController
 public class UserRestController {
 
-
-    // fixed adding to DB
-
     @Autowired
     UserDao userDao;
 
-
-    @Autowired
-    UserDao notUserDao;
-
-    @RequestMapping(value = "/user1", method = RequestMethod.POST,
-            produces = { MediaType.APPLICATION_JSON_VALUE,
+    @RequestMapping(value = "/users", //
+            method = RequestMethod.GET, //
+            produces = { MediaType.APPLICATION_JSON_VALUE , //
                     MediaType.APPLICATION_XML_VALUE })
-    public void addUser1(@RequestBody User user){
+    @ResponseBody
+    public List<User> getEmployees() {
+        List<User> list = userDao.findAll();
 
-        System.out.println("User " + user.getId() + "add");
-        this.userDao.save(user);
+        System.out.println("user get All");
+        return list;
     }
 
+    @RequestMapping(value = "/lastUser")
+    @ResponseBody
+    public List<User> getLastUser() {
+        List<User> list = userDao.findLastUser();
+
+        System.out.println("lastUser");
+        return list;
+    }
 
 
     @RequestMapping(value = "/user", method = RequestMethod.POST,
@@ -39,6 +43,7 @@ public class UserRestController {
     public void addUser(@RequestBody User user){
 
         System.out.println("User " + user.getId() + "add");
+//        this.userDao.save(user);
         this.userDao.save(user);
     }
 
@@ -85,17 +90,14 @@ public class UserRestController {
 
     }
 
-    @RequestMapping(value = "/users", //
-            method = RequestMethod.GET, //
-            produces = { MediaType.APPLICATION_JSON_VALUE , //
-                    MediaType.APPLICATION_XML_VALUE })
-    @ResponseBody
-    public List<User> getEmployees() {
-        List<User> list = userDao.findAll();
 
-        System.out.println("user get All");
-        return list;
-    }
 
 
 }
+
+//    echo "# practiceNLTU" >> README.md
+//    git init
+//    git add README.md
+//    git commit -m "first commit"
+//    git remote add origin https://github.com/Jackson75063/practiceNLTU.git
+//    git push -u origin master
